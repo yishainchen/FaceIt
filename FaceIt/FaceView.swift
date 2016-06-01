@@ -7,15 +7,23 @@
 //
 
 import UIKit
+@IBDesignable
 
 class FaceView: UIView {
     
-    var scale: CGFloat = 0.90
-    var mouthCurvature: Double = 0.0 //1 full smile, -1 full sad
-    var eyeOpen: Bool = false
-    var color: UIColor = UIColor.blueColor()
-    var lineWidth: CGFloat = 5.0
-    var eyeBrowTilt: Double = 0.0 // -1 full furrow
+    @IBInspectable
+    var scale: CGFloat = 0.90 { didSet { setNeedsDisplay() }}
+    
+    @IBInspectable
+    var mouthCurvature: Double = 0.0 { didSet { setNeedsDisplay() }}
+    @IBInspectable
+    var eyeOpen: Bool = false { didSet { setNeedsDisplay() }}
+    @IBInspectable
+    var color: UIColor = UIColor.blueColor() { didSet { setNeedsDisplay() }}
+    @IBInspectable
+    var lineWidth: CGFloat = 5.0 { didSet { setNeedsDisplay() }}
+    @IBInspectable
+    var eyeBrowTilt: Double = 0.0  { didSet { setNeedsDisplay() }}
     
     
     private var skullRadius:CGFloat {
