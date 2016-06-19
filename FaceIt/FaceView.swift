@@ -143,7 +143,7 @@ class FaceView: UIView {
     override func drawRect(rect: CGRect) {
         
         
-        color.set()
+//        color.set()
         pathForCircleCenteredAtPoint(skullCenter, withRadius: skullRadius).stroke()
         pathForEye(.Left).stroke()
         pathForEye(.Right).stroke()

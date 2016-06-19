@@ -8,13 +8,14 @@
 import UIKit
 
 class FaceViewController: UIViewController {
-
-    var expression = FacialExpression(eyes: .Open,eyesBrow: .Normal, mouth: .Smile) {
+    // MARK : MODEL
+    var expression = FacialExpression(eyes: .Closed ,eyesBrow: .Normal, mouth: .Smile) {
         didSet {
-            updateUI()
+            updateUI() //Model changed, so change the view
         }
     }
     
+    // MARK : VIEW
     @IBOutlet weak var faceView: FaceView! {
         didSet {
             faceView.addGestureRecognizer(UIPanGestureRecognizer(
@@ -34,6 +35,31 @@ class FaceViewController: UIViewController {
         }
     }
     
+    private func updateUI() {
+        if faceView != nil {
+            switch expression.eyes {
+            case .Open: faceView.eyeOpen = true
+            case .Closed: faceView.eyeOpen = false
+            case .Squinting: faceView.eyeOpen = false
+            }
+            faceView.mouthCurvature = mouthCurvatures[expression.mouth] ?? 0.0
+            faceView.eyeBrowTilt = eyeBrowTilts[expression.eyesBrow] ?? 0.0
+            
+        }
+    }
+    
+    private var mouthCurvatures = [FacialExpression.Mouth.Frown:-1.0, .Grin:0.5, .Smile:-1.0, .Smirk:-0.5, .Neutral:0.0]
+    private var eyeBrowTilts = [FacialExpression.EyeBrows.Relaxed:0.5, .Furrowed:-0.5, .Normal:0.0]
+    
+    func increaseHappiness() {
+        expression.mouth = expression.mouth.happierMouth()
+    }
+    
+    func decreaseHappiness() {
+        expression.mouth = expression.mouth.sadderMouth()
+    }
+    
+    
     @IBAction func toggleEyes(recognizer: UITapGestureRecognizer) {
         if recognizer.state == .Ended {
             switch expression.eyes {
@@ -44,25 +70,19 @@ class FaceViewController: UIViewController {
             }
         }
     }
-    func increaseHappiness() {
-        expression.mouth = expression.mouth.happierMouth()
-    }
     
-    func decreaseHappiness() {
-        expression.mouth = expression.mouth.sadderMouth()
-    }
-    private var mouthCurvatures = [FacialExpression.Mouth.Frown:-1.0, .Grin:0.5, .Smile:-1.0, .smirk:-0.5, .Neutral:0.0]
-    private var eyeBrowTilts = [FacialExpression.EyeBrows.Relaxed:0.5, .Furrowed:-0.5, .Normal:0.0]
-    
-    private func updateUI() {
-        switch expression.eyes {
-        case .Open: faceView.eyeOpen = true
-        case .Closed: faceView.eyeOpen = false
-        case .Squinting: faceView.eyeOpen = false
-            }
-        faceView.mouthCurvature = mouthCurvatures[expression.mouth] ?? 0.0
-        faceView.eyeBrowTilt = eyeBrowTilts[expression.eyesBrow] ?? 0.0
-    }
+//    func changeBrows(recognizer: UIRotationGestureRecognizer)  {
+//        switch recognizer.state {
+//        case .Changed,.Ended:
+//            if recognizer.rotation > CGFloat(M_PI/4) {
+//                expression.eyesBrow =
+//                    expression.eyesBrows
+//                
+//            }
+//        }
+//    }
+//    
+
+
     
 }
-

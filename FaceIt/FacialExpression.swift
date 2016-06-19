@@ -30,7 +30,7 @@ struct FacialExpression {
     
     enum Mouth: Int {
         case Frown
-        case smirk
+        case Smirk
         case Neutral
         case Grin
         case Smile
@@ -39,7 +39,7 @@ struct FacialExpression {
             return Mouth(rawValue:rawValue - 1) ?? .Frown
         }
         func happierMouth() -> Mouth {
-            return Mouth(rawValue:rawValue + 1) ?? Smile
+            return Mouth(rawValue:rawValue + 1) ?? .Smile
         }
     }
     
